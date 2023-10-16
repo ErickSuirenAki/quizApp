@@ -142,7 +142,7 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 45, 153, 216), // cor geral
+      backgroundColor: Color.fromARGB(255, 45, 153, 216),
       appBar: AppBar(
         title: Text('Quiz App'),
         backgroundColor: Color.fromARGB(255, 36, 124, 207),
@@ -166,7 +166,7 @@ class _QuizPageState extends State<QuizPage> {
                   color: const Color.fromARGB(
                       255, 54, 143, 244), // Defina a cor de fundo para vermelho
                 ),
-                child: Result(score, resetQuiz),
+                child: Result(score, resetQuiz, () {}),
               ),
             ),
     );
@@ -242,8 +242,8 @@ class Answer extends StatelessWidget {
 class Result extends StatelessWidget {
   final int score;
   final VoidCallback resetHandler;
-
-  Result(this.score, this.resetHandler);
+  final VoidCallback finishHandler;
+  Result(this.score, this.resetHandler, this.finishHandler);
 
   @override
   Widget build(BuildContext context) {
@@ -260,6 +260,8 @@ class Result extends StatelessWidget {
             onPressed: resetHandler,
             child: Text('Reiniciar o Quiz'),
           ),
+          ElevatedButton(
+              onPressed: finishHandler, child: Text('Finalizar o Quiz')),
         ],
       ),
     );
