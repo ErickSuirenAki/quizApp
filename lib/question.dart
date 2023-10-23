@@ -7,8 +7,6 @@ class Question extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // ... (o resto do seu código para este arquivo)
-    );
+    return Text(questionText);
   }
 }

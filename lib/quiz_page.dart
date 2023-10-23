@@ -12,7 +12,7 @@ class _QuizPageState extends State<QuizPage> {
   int score = 0;
 
   final List<Map<String, dynamic>> questions = [
-    // ... (aqui você coloca todas as suas perguntas e respostas)
+    // Coloque suas perguntas e respostas aqui
   ];
 
   void answerQuestion(bool isCorrect) {

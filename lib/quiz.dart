@@ -15,8 +15,17 @@ class Quiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // ... (o resto do seu código para este arquivo)
+    return Column(
+      children: [
+        Question(questions[questionIndex]['questionText'].toString()),
+        ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
+            .map((answer) {
+          return Answer(
+            answer['text'].toString(),
+            () => answerQuestion(answer['correct']),
+          );
+        }).toList(),
+      ],
     );
   }
 }

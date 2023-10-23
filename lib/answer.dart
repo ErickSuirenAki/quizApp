@@ -8,8 +8,9 @@ class Answer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // ... (o resto do seu código para este arquivo)
+    return ElevatedButton(
+      onPressed: selectHandler,
+      child: Text(answerText),
     );
   }
 }
