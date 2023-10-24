@@ -26,7 +26,7 @@ class StartPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              '../assets/7.jpg',
+              'assets/start_image.png',
               width: 200,
               height: 200,
             ),

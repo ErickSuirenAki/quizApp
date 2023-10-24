@@ -33,8 +33,6 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // ... (o resto do seu código para este arquivo)
-    );
+    return Scaffold();
   }
 }
