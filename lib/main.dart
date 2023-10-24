@@ -6,7 +6,41 @@ class QuizApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: QuizPage(),
+      home: StartPage(),
+    );
+  }
+}
+
+class StartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 45, 153, 216),
+      appBar: AppBar(
+        title: Text('Quiz App - Página Inicial'),
+        backgroundColor: Color.fromARGB(255, 36, 124, 207),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              'assets/start_image.png',
+              width: 200,
+              height: 200,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return QuizPage();
+                }));
+              },
+              child: Text('Iniciar Quiz'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -75,7 +109,7 @@ class _QuizPageState extends State<QuizPage> {
         {'text': 'Um software de edição de imagens', 'correct': false},
         {
           'text': 'Um dispositivo que impede o acesso não autorizado à rede',
-          'correct': true
+          'correct': true,
         },
         {'text': 'Um protocolo de criptografia', 'correct': false},
         {'text': 'Um navegador da web', 'correct': false},
@@ -116,7 +150,7 @@ class _QuizPageState extends State<QuizPage> {
         {'text': 'Um arquivo de áudio', 'correct': false},
         {
           'text': 'Um documento portátil em formato de arquivo',
-          'correct': true
+          'correct': true,
         },
         {'text': 'Um arquivo de vídeo', 'correct': false},
       ],
@@ -128,9 +162,17 @@ class _QuizPageState extends State<QuizPage> {
       if (isCorrect) {
         score++;
       }
-      questionIndex++;
+      if (questionIndex < questions.length - 1) {
+        questionIndex++;
+      } else {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return ResultPage(score, resetQuiz, () {});
+        }));
+      }
     });
   }
+
+
 
   void resetQuiz() {
     setState(() {
@@ -146,49 +188,37 @@ class _QuizPageState extends State<QuizPage> {
       appBar: AppBar(
         title: Text('Quiz App'),
         backgroundColor: Color.fromARGB(255, 36, 124, 207),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.home),
-            onPressed: () {},
-          ),
-        ],
         centerTitle: true,
       ),
-      body: questionIndex < questions.length
-          ? Quiz(
-              questionIndex: questionIndex,
-              questions: questions,
-              answerQuestion: answerQuestion,
-            )
-          : Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(
-                      255, 54, 143, 244), // Defina a cor de fundo para vermelho
-                ),
-                child: Result(score, resetQuiz, () {}),
-              ),
-            ),
+      body: Quiz(
+        questionIndex: questionIndex,
+        totalQuestions: questions.length,
+        questions: questions,
+        answerQuestion: answerQuestion,
+      ),
     );
   }
 }
 
+
 class Quiz extends StatelessWidget {
   final int questionIndex;
+  final int totalQuestions;
   final List<Map<String, dynamic>> questions;
   final Function answerQuestion;
 
   Quiz({
     required this.questionIndex,
+    required this.totalQuestions,
     required this.questions,
     required this.answerQuestion,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
+    return Column(
       children: [
+        Text('Pergunta ${questionIndex + 1} de $totalQuestions'),
         Question(questions[questionIndex]['questionText'].toString()),
         ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
             .map((answer) {
@@ -198,7 +228,7 @@ class Quiz extends StatelessWidget {
           );
         }).toList(),
       ],
-    ));
+    );
   }
 }
 
@@ -239,30 +269,83 @@ class Answer extends StatelessWidget {
   }
 }
 
-class Result extends StatelessWidget {
+
+
+class ResultPage extends StatelessWidget {
   final int score;
-  final VoidCallback resetHandler;
+  final VoidCallback resetHandler; // Adicione esta linha
   final VoidCallback finishHandler;
-  Result(this.score, this.resetHandler, this.finishHandler);
+
+  ResultPage(this.score, this.resetHandler, this.finishHandler); // Atualize o construtor
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Você acertou $score perguntas!',
-            style: TextStyle(fontSize: 24),
-            textAlign: TextAlign.center,
-          ),
-          ElevatedButton(
-            onPressed: resetHandler,
-            child: Text('Reiniciar o Quiz'),
-          ),
-          ElevatedButton(
-              onPressed: finishHandler, child: Text('Finalizar o Quiz')),
-        ],
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 45, 153, 216),
+      appBar: AppBar(
+        title: Text('Quiz App - Resultados'),
+        backgroundColor: Color.fromARGB(255, 36, 124, 207),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Você acertou $score perguntas!',
+              style: TextStyle(fontSize: 24),
+              textAlign: TextAlign.center,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return QuizPage();
+                }));
+                },// Chama a função para reiniciar o quiz
+              child: Text('Reiniciar o Quiz'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ThankYouPage();
+                }));
+              },
+              child: Text('Finalizar o Quiz'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ThankYouPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 45, 153, 216),
+      appBar: AppBar(
+        title: Text('Quiz App - Agradecimento'),
+        backgroundColor: Color.fromARGB(255, 36, 124, 207),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Obrigado por jogar!',
+              style: TextStyle(fontSize: 24),
+              textAlign: TextAlign.center,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Voltar à Página Inicial'),
+            ),
+          ],
+        ),
       ),
     );
   }
