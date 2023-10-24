@@ -26,7 +26,7 @@ class StartPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              'assets/start_image.png',
+              '../assets/7.jpg',
               width: 200,
               height: 200,
             ),
@@ -172,8 +172,6 @@ class _QuizPageState extends State<QuizPage> {
     });
   }
 
-
-
   void resetQuiz() {
     setState(() {
       questionIndex = 0;
@@ -199,7 +197,6 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 }
-
 
 class Quiz extends StatelessWidget {
   final int questionIndex;
@@ -269,14 +266,13 @@ class Answer extends StatelessWidget {
   }
 }
 
-
-
 class ResultPage extends StatelessWidget {
   final int score;
   final VoidCallback resetHandler; // Adicione esta linha
   final VoidCallback finishHandler;
 
-  ResultPage(this.score, this.resetHandler, this.finishHandler); // Atualize o construtor
+  ResultPage(this.score, this.resetHandler,
+      this.finishHandler); // Atualize o construtor
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +297,7 @@ class ResultPage extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return QuizPage();
                 }));
-                },// Chama a função para reiniciar o quiz
+              }, // Chama a função para reiniciar o quiz
               child: Text('Reiniciar o Quiz'),
             ),
             ElevatedButton(
